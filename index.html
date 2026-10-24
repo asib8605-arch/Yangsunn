@@ -279,6 +279,13 @@ img.art{object-fit:cover}
 .igml{display:flex;justify-content:space-between;padding:14px 16px 8px;font-size:17px}.igml span{color:#888}.igdm{display:flex;align-items:center;gap:14px;padding:12px 16px;cursor:pointer}.igdm>div{flex:1;min-width:0}.igdm b{color:#3478f6;font-size:19px;display:block;font-weight:500}.igdm b.un{font-weight:800}.igdm p{margin:3px 0 0;color:#888;font-size:15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .igth{display:flex;align-items:center;gap:10px;padding:8px 14px;font-weight:700;font-size:17px;border-bottom:1px solid #0001}.igth button{color:#111}.igm{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:6px}
 .igb{max-width:72%;padding:10px 14px;border-radius:22px;font-size:16px;line-height:1.35}.igb.me{align-self:flex-end;background:#3478f6;color:#fff}.igb.them{align-self:flex-start;background:#efeff1}
+.igsep{align-self:center;color:#8e8e93;font-size:12px;margin:12px 0 4px}
+.igsl{font-size:12px;color:#8e8e93;margin-top:6px}.igsl.me{align-self:flex-end}.igsl.them{align-self:flex-start}
+.igsc{display:flex;gap:8px;align-items:stretch}.igsc.me{align-self:flex-end;flex-direction:row-reverse}.igsc.them{align-self:flex-start}
+.igsc i{width:4px;border-radius:2px;background:#dcdce0;flex:none}.igsc img{width:130px;aspect-ratio:9/16;object-fit:cover;border-radius:16px;display:block;opacity:.88}
+.igrow2{display:flex;gap:8px;align-items:flex-end;align-self:flex-start;max-width:100%}.igrow2 .igb{max-width:72%}
+.igpic{width:190px;border-radius:18px;display:block}.igpicw.me{align-self:flex-end}
+.igpic0{width:190px;aspect-ratio:3/4;border-radius:18px;background:#e5e5ea;color:#8e8e93;display:grid;place-items:center;font-size:13px}
 .igin{display:flex;gap:8px;padding:8px 12px 30px;border-top:1px solid #0001;align-items:center}.igin input{flex:1;min-width:0;border:1px solid #ddd;border-radius:22px;padding:11px 16px;font:inherit;font-size:16px;outline:0;-webkit-user-select:text;user-select:text}.igin button{color:#3478f6;width:40px}
 .igemp{text-align:center;color:#888;margin-top:40px;font-size:16px}.igres{display:flex;align-items:center;gap:12px;padding:10px 16px}.igres small{color:#888;margin-left:auto}
 .igpr{display:flex;align-items:center;gap:26px;padding:20px 18px}.igst2{display:flex;flex:1;justify-content:space-around;text-align:center;font-size:15px}.igst2 b{display:block;font-size:22px}.ignm{padding:0 18px 12px;font-size:16px}.igedit{margin:0 18px;background:#efeff1;border-radius:12px;padding:12px;text-align:center;font-size:15px}
@@ -964,7 +971,24 @@ const IGR = [
 ].map((r, i) => ({ id: `r${i}`, u: r[0], g: IGC[i % 8], n: r[1], c: r[2], cap: r[3], cm: r[4], v: i + 1 }));
 const igFmt = n => n >= 10000 ? (Math.round(n / 1000) / 10).toString().replace(/\.0$/, "") + "만" : String(n);
 const IGA = {
-  "suxnoo": { name: "김선우", bio: "@yan.jwn", posts: 6, fol: 624, fing: 92, follows: [...IGU, "yansu.xn"], dms: [{ u: "yan.jwn", m: [["them", "담에는 같이 가요 ㅋㅋㅋㅋㅋㅋ"]], un: 0 }, { u: "sjong_", m: [["them", "과제 올렸어?"], ["me", "응 방금 올렸어"]], un: 0 }, { u: "gwa26", m: [["them", "공지 확인했어요?"]], un: 1 }] },
+  "suxnoo": { name: "김선우", bio: "@yan.jwn", posts: 6, fol: 624, fing: 92, follows: [...IGU, "yansu.xn"], dms: [{ u: "yan.jwn", un: 0, m: [
+    ["sep", "10월 14일 오후 9:12"],
+    ["story", "them", "images/dm/yan.jwn-1-story.jpg", "회원님의 스토리에 답장을 보냈습니다"],
+    ["them", "누가 찍어준 거예요?"],
+    ["me", "친구!"], ["me", "잘 나왔지!"],
+    ["them", "네"], ["them", "공유 좀"], ["them", "배경화면하게"],
+    ["me", "ㅋㅋㅋ웅"],
+    ["sep", "10월 19일 오후 2:07"],
+    ["me", "정워나"], ["me", "팀플 끝나면 전화해~"], ["me", "나 앞 카페에서 기다리는 중"],
+    ["sep", "오후 5:48"],
+    ["them", "선우형"], ["them", "어디예요?"],
+    ["sep", "10월 23일 오후 11:03"],
+    ["story", "me", "images/dm/yan.jwn-3-story.jpg", "yan.jwn님의 스토리에 답장을 보냈습니다"],
+    ["me", "유명한 포토그래퍼가 찍어주셨다던데 진짠가여?"],
+    ["them", "(사진)"],
+    ["them", "열정적인 떠누 사진작가님"],
+    ["me", "뭐야 언제찍었어???"]
+  ] }] },
   "yansu.xn": { name: "", bio: "@yan.jwn ♡ @suxnoo", posts: 7, fol: 224, fing: 2, follows: ["suxnoo", "yan.jwn"], dms: [{ u: "yan.jwn", m: [["them", "확인했어요"]], un: 0 }] }
 };
 const ig = { acc: "suxnoo", tab: "home", th: null, ov: null, pu: null, fl: false, fls: null, mute: false, q: "", liked: {}, po: null, notifs: { "suxnoo": [], "yansu.xn": [] }, su: null, si: 0 };
@@ -1041,6 +1065,20 @@ function igPostView() {
   const u = ig.po.u;
   return `<div class="igth"><button data-igback="1">${CH}</button><b>게시물</b></div><div class="ig-b" data-t="po" style="padding-bottom:30px">${IGPOSTS[u].map((_, i) => igPostCard(u, i)).join("")}</div>`;
 }
+function igMsgHtml(d) {
+  const M = d.m, sp = '<span style="width:28px;flex:none"></span>', av = `<span class="igav" style="width:28px;height:28px;flex:none">${IGAVS}</span>`;
+  const isThem = m => m && (m[0] === "them" || (m[0] === "img" && m[1] === "them"));
+  return M.map((m, i) => {
+    const k = m[0];
+    if (k === "sep") return `<div class="igsep">${esc(m[1])}</div>`;
+    if (k === "story") return `<div class="igsl ${m[1]}">${esc(m[3])}</div><div class="igsc ${m[1]}"><i></i><img src="${m[2]}" alt="" draggable="false"></div>`;
+    const side = k === "img" ? m[1] : k;
+    const body = k === "img" ? `<img class="igpic" src="${m[2]}" alt="" draggable="false" onerror="this.outerHTML='<div class=igpic0>사진을 넣을 자리</div>'">` : `<div class="igb ${side}">${esc(m[1])}</div>`;
+    if (side === "me") return k === "img" ? `<div class="igpicw me">${body}</div>` : body;
+    return `<div class="igrow2">${isThem(M[i + 1]) ? sp : av}${body}</div>`;
+  }).join("");
+}
+const igPrev = d => { const l = [...d.m].reverse().find(m => m[0] !== "sep" && m[0] !== "story"); if (!l) return ""; const side = l[0] === "img" ? l[1] : l[0]; return (side === "me" ? "회원님: " : "") + (l[0] === "img" ? "사진을 보냈습니다." : esc(l[1])); };
 function igRender() {
   if (ig.th !== null || ig.ov === "act") ig.po = null;
   const A = IGA[ig.acc], el = $("#insta"), old = el.querySelector(".ig-b"), sc = old && old.dataset.t === ig.tab ? old.scrollTop : 0, unread = A.dms.filter(d => d.un).length, f = igFol();
@@ -1048,7 +1086,7 @@ function igRender() {
   let body = "", showNav = true;
   if (ig.th !== null) {
     showNav = false; const d = A.dms[ig.th]; d.un = 0;
-    body = `<div class="igth"><button data-igback="1">${CH}</button>${igav(34)}<b>${d.u}</b></div><div class="igm" id="igm">${d.m.map(m => `<div class="igb ${m[0]}">${esc(m[1])}</div>`).join("")}</div><div class="igin"><input id="igi" placeholder="메시지 입력..."><button id="igsd">${IGI.send}</button></div>`;
+    body = `<div class="igth"><button data-igback="1">${CH}</button>${igav(34)}<b>${d.u}</b></div><div class="igm" id="igm">${igMsgHtml(d)}</div><div class="igin"><input id="igi" placeholder="메시지 입력..."><button id="igsd">${IGI.send}</button></div>`;
   } else if (ig.po !== null) {
     body = igPostView();
   } else if (ig.pu !== null) {
@@ -1071,7 +1109,7 @@ function igRender() {
     body = `<div class="igh2">릴스</div><div class="igreels">${IGR.map(r => `<div class="igreel" data-rid="${r.id}" style="background:linear-gradient(170deg,${r.g[0]},${r.g[1]})">${r.v ? `<video data-vi="${r.v - 1}" loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noremoteplayback" preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none"></video><div class="igtap" data-igtap="1"></div><div class="igrg"></div><i class="igmi">${ig.mute ? IGI.mute : IGI.vol}</i><i class="igbig"></i>` : `<div class="igph0">영상을 넣을 자리</div>`}<div class="igrr"><button data-igl="${r.id}" class="${igLk(r.id) ? "on" : ""}">${IGI.heart}<small data-igc="${r.id}" data-n="${r.n}">${igFmt(r.n + (igLk(r.id) ? 1 : 0))}</small></button><button>${IGI.cmt}<small>${igFmt(r.c)}</small></button><button>${IGI.send}</button></div><div class="igrb"><div class="igrh"><span data-igu="${r.u}" style="display:flex;cursor:pointer">${igav(38)}</span><b class="igun" data-igu="${r.u}">${r.u}</b>${r.u === ig.acc ? "" : `<button class="igrf ${f.includes(r.u) ? "on" : ""}" data-igrf="${r.u}">${f.includes(r.u) ? "팔로잉" : "팔로우"}</button>`}</div><p>${esc(r.cap)}</p>${r.cm ? `<div class="igrcm"><b>${r.cm[0]}</b> ${esc(r.cm[1])}</div>` : ""}</div></div>`).join("")}</div>`;
   } else if (ig.tab === "dm") {
     body = `<div class="igh2"><span class="igtt" data-igacc="1">${ig.acc} ${IGI.chev}</span><button>${ic('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>', 24)}</button></div>
-    <div class="ig-b" data-t="dm"><div class="igsb">${ic('<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>', 18)} 검색</div><div class="igml"><b>메시지</b><span>요청</span></div>${A.dms.map((d, i) => { if (!d.m.length) return ""; const l = d.m[d.m.length - 1]; return `<div class="igdm" data-igdm="${i}">${igav(62)}<div><b class="${d.un ? "un" : ""}">${d.u}</b><p>${l[0] === "me" ? "회원님: " : ""}${esc(l[1])}</p></div><em class="ch">›</em></div>`; }).join("")}</div>`;
+    <div class="ig-b" data-t="dm"><div class="igsb">${ic('<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>', 18)} 검색</div><div class="igml"><b>메시지</b><span>요청</span></div>${A.dms.map((d, i) => { if (!d.m.length) return ""; const l = d.m[d.m.length - 1]; return `<div class="igdm" data-igdm="${i}">${igav(62)}<div><b class="${d.un ? "un" : ""}">${d.u}</b><p>${igPrev(d)}</p></div><em class="ch">›</em></div>`; }).join("")}</div>`;
   } else if (ig.tab === "search") {
     body = `<div class="igh2" style="font-size:24px">검색</div><div class="ig-b" data-t="search"><div class="igsb big"><input id="igq" placeholder="검색" value="${esc(ig.q)}"></div><div id="igres"></div></div>`;
   } else {

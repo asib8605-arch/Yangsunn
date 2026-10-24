@@ -291,7 +291,7 @@ img.art{object-fit:cover}
 .igpr{display:flex;align-items:center;gap:26px;padding:20px 18px}.igst2{display:flex;flex:1;justify-content:space-around;text-align:center;font-size:15px}.igst2 b{display:block;font-size:22px}.ignm{padding:0 18px 12px;font-size:16px}.igedit{margin:0 18px;background:#efeff1;border-radius:12px;padding:12px;text-align:center;font-size:15px}
 .igtabs{display:flex;justify-content:space-around;padding:16px 0 12px;border-top:1px solid #0001;margin-top:14px;color:#555}.iggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.iggrid div{aspect-ratio:1}
 .igsheet{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:20;display:flex;align-items:flex-end}.igsc2{background:#fff;border-radius:22px 22px 0 0;width:100%;padding:16px 16px 44px}.igsw{display:flex;align-items:center;gap:14px;padding:13px 6px;font-size:17px;cursor:pointer}.igsw span{margin-left:auto;color:#3478f6}
-.igst{position:absolute;inset:0;z-index:20;display:none;color:#fff;background:#333}.igst.on{display:block}.stbar{position:absolute;top:60px;left:10px;right:10px;display:flex;gap:4px}.stbar i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.4);position:relative;overflow:hidden}.stbar i.d{background:#fff}.stbar i.a::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:left;animation:stg 5s linear forwards}@keyframes stg{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.igst{position:absolute;inset:0;z-index:20;display:none;color:#fff;background:#333}.igst.on{display:block}.stimg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}.stbar{position:absolute;top:60px;left:10px;right:10px;display:flex;gap:4px}.stbar i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.4);position:relative;overflow:hidden}.stbar i.d{background:#fff}.stbar i.a::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:left;animation:stg 5s linear forwards}@keyframes stg{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .sth{position:absolute;top:74px;left:12px;right:12px;display:flex;align-items:center;gap:10px;font-size:15px}.sth span{opacity:.8;font-size:13px}.sth button{margin-left:auto;color:#fff}.stp{position:absolute;left:0;top:130px;bottom:90px;width:35%}.stn{position:absolute;right:0;top:130px;bottom:90px;width:65%}
 .stf{position:absolute;left:12px;right:12px;bottom:34px;display:flex;gap:10px;align-items:center}.stf input{flex:1;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.7);border-radius:24px;padding:12px 16px;color:#fff;font:inherit;font-size:15px;outline:0;-webkit-user-select:text;user-select:text}.stf input::placeholder{color:#fffc}.stf button{color:#fff}
 .igav{margin-left:0!important}.sth .igav{opacity:1}.igi{gap:18px}.ignm a{color:#00376b;cursor:pointer;font-weight:600}.igph,.igres[data-igu]{cursor:pointer}
@@ -1103,7 +1103,7 @@ function igRender() {
   } else if (ig.tab === "home") {
     const posts = IGFEED.filter(p => f.includes(p[0]));
     body = `<div class="igh"><b class="iglogo">Instagram</b><span class="igi"><button data-igact="1">${IGI.heart}</button><button data-igtab="dm">${IGI.send}</button></span></div>
-    <div class="ig-b" data-t="home"><div class="igstories"><div class="igs" data-igs="${ig.acc}"><i class="igsr my">${igav(62)}<em class="igplus">+</em></i><span style="color:#3478f6">내 스토리</span></div>${f.map(u => `<div class="igs" ${STO_OK.includes(u) ? `data-igs="${u}"` : `style="cursor:default"`}><i class="igsr">${igav(62)}</i>${u}</div>`).join("")}</div>
+    <div class="ig-b" data-t="home"><div class="igstories"><div class="igs" ${stoOf(ig.acc).length ? `data-igs="${ig.acc}"` : ""}><i class="igsr my">${igav(62)}<em class="igplus">+</em></i><span style="color:#3478f6">내 스토리</span></div>${stoBar(f).map(u => `<div class="igs" ${STO_OK.includes(u) ? `data-igs="${u}"` : `style="cursor:default"`}><i class="igsr">${igav(62)}</i>${u}</div>`).join("")}</div>
     ${posts.map(p => igPostCard(p[0], p[1])).join("")}</div>`;
   } else if (ig.tab === "reels") {
     body = `<div class="igh2">릴스</div><div class="igreels">${IGR.map(r => `<div class="igreel" data-rid="${r.id}" style="background:linear-gradient(170deg,${r.g[0]},${r.g[1]})">${r.v ? `<video data-vi="${r.v - 1}" loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noremoteplayback" preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none"></video><div class="igtap" data-igtap="1"></div><div class="igrg"></div><i class="igmi">${ig.mute ? IGI.mute : IGI.vol}</i><i class="igbig"></i>` : `<div class="igph0">영상을 넣을 자리</div>`}<div class="igrr"><button data-igl="${r.id}" class="${igLk(r.id) ? "on" : ""}">${IGI.heart}<small data-igc="${r.id}" data-n="${r.n}">${igFmt(r.n + (igLk(r.id) ? 1 : 0))}</small></button><button>${IGI.cmt}<small>${igFmt(r.c)}</small></button><button>${IGI.send}</button></div><div class="igrb"><div class="igrh"><span data-igu="${r.u}" style="display:flex;cursor:pointer">${igav(38)}</span><b class="igun" data-igu="${r.u}">${r.u}</b>${r.u === ig.acc ? "" : `<button class="igrf ${f.includes(r.u) ? "on" : ""}" data-igrf="${r.u}">${f.includes(r.u) ? "팔로잉" : "팔로우"}</button>`}</div><p>${esc(r.cap)}</p>${r.cm ? `<div class="igrcm"><b>${r.cm[0]}</b> ${esc(r.cm[1])}</div>` : ""}</div></div>`).join("")}</div>`;
@@ -1168,14 +1168,23 @@ function igSend() { const i = $("#igi"), v = i.value.trim(); if (!v) return; IGA
 function igDmSend(u, v) { const A = IGA[ig.acc]; let d = A.dms.find(x => x.u === u); if (!d) { d = { u, m: [], un: 0 }; A.dms.unshift(d); } d.m.push(["me", v]); }
 /* 스토리 뷰어 */
 let stT;
-const STO_OK = ["yan.jwn"];
-const stoList = () => [ig.acc, ...STO_OK.filter(u => u !== ig.acc && igFol().includes(u))];
-const stoOf = u => { const k = Math.max(0, IGU.indexOf(u)); return [IGC[k % 8], IGC[(k + 3) % 8]].slice(0, 1 + k % 2); };
+/* 스토리 설정: STORIES["계정"] = [ { img: 사진 경로, h: 몇 시간 전 }, ... ] (왼쪽부터 순서대로 재생) */
+const STORIES = {
+  "yansu.xn": [{ img: "images/stories/yansu.xn-1.jpg", h: 7 }],
+  "suxnoo": [{ img: "images/stories/suxnoo-1.jpg", h: 19 }, { img: "images/stories/suxnoo-2.jpg", h: 2 }],
+  "yan.jwn": [{ img: "images/stories/yan.jwn-1.jpg", h: 3 }]
+};
+const STO_OK = Object.keys(STORIES);
+const stoOf = u => STORIES[u] || [];
+const stoNew = u => Math.min(...stoOf(u).map(x => x.h));
+/* 스토리 줄 순서: 스토리 있는 계정(최근 순)이 먼저, 나머지는 원래 순서 */
+const stoBar = f => [...f.filter(u => STO_OK.includes(u)).sort((a, b) => stoNew(a) - stoNew(b)), ...f.filter(u => !STO_OK.includes(u))];
+const stoList = () => [...(stoOf(ig.acc).length ? [ig.acc] : []), ...stoBar(igFol()).filter(u => u !== ig.acc && STO_OK.includes(u))];
 function stoDraw() {
   clearTimeout(stT); const el = $("#igst"); if (!ig.su) { el.classList.remove("on"); el.innerHTML = ""; return; }
   const u = ig.su, items = stoOf(u), c = items[ig.si], key = `s:${u}:${ig.si}`;
-  el.style.background = `linear-gradient(170deg,${c[0]},${c[1]})`;
-  el.innerHTML = `<div class="stbar">${items.map((_, j) => `<i class="${j < ig.si ? "d" : j === ig.si ? "a" : ""}"></i>`).join("")}</div><div class="sth">${igav(34)}<b>${u}</b><span>방금</span><button data-stc="1">${ic('<path d="M5 5l14 14M19 5L5 19"/>', 24)}</button></div><div class="stp" data-stp="1"></div><div class="stn" data-stn="1"></div>${u === ig.acc ? "" : `<div class="stf"><input id="stin" placeholder="메시지 보내기"><button data-igl="${key}" class="${igLk(key) ? "on" : ""}">${IGI.heart}</button><button id="stsend">${IGI.send}</button></div>`}`;
+  el.style.background = "#000";
+  el.innerHTML = `<img class="stimg" src="${c.img}" alt="" draggable="false"><div class="stbar">${items.map((_, j) => `<i class="${j < ig.si ? "d" : j === ig.si ? "a" : ""}"></i>`).join("")}</div><div class="sth">${igav(34)}<b>${u}</b><span>${c.h}시간 전</span><button data-stc="1">${ic('<path d="M5 5l14 14M19 5L5 19"/>', 24)}</button></div><div class="stp" data-stp="1"></div><div class="stn" data-stn="1"></div>${u === ig.acc ? "" : `<div class="stf"><input id="stin" placeholder="메시지 보내기"><button data-igl="${key}" class="${igLk(key) ? "on" : ""}">${IGI.heart}</button><button id="stsend">${IGI.send}</button></div>`}`;
   el.classList.add("on"); stT = setTimeout(stoNext, 5000);
 }
 function stoNext() { const items = stoOf(ig.su); if (ig.si < items.length - 1) ig.si++; else { const f = stoList(), k = f.indexOf(ig.su); if (k < f.length - 1) { ig.su = f[k + 1]; ig.si = 0; } else ig.su = null; } stoDraw(); }

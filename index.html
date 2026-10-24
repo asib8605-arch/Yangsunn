@@ -463,7 +463,7 @@ function renderHome() {
     `<div class="wg" style="grid-column:1/3;grid-row:1/3" data-go="photos"><div class="card pw"><img src="${IMG.photo}" alt=""></div>사진</div>`
     + app("notes", "메모", "notes", "grid-column:3;grid-row:1") + app("photos", "사진", "photos", "grid-column:4;grid-row:1")
     + app("camera", "카메라", "camera", "grid-column:3;grid-row:2") + app("settings", "설정", "settings", "grid-column:4;grid-row:2")
-    + app("insta", "Instagram", "insta", "grid-column:1;grid-row:3") + app("x", "X", "xapp", "grid-column:2;grid-row:3")
+    + app("insta", "Instagram", "insta", "grid-column:1;grid-row:3") + app("x", "X", "", "grid-column:2;grid-row:3")
     + app("setlog", "셋로그", "setlog", "grid-column:1;grid-row:4") + app("baemin", "배달의민족", "baemin", "grid-column:2;grid-row:4")
     + `<div class="wg" style="grid-column:3/5;grid-row:3/5"><div class="card sp"><img class="art" src="${IMG.cover}" alt=""><img class="slogo" src="${IMG.spotify}" alt=""><div class="tt"><b>No Make Up</b><span>Zion.T</span></div><i class="play">${playing ? "❚❚" : "▶"}</i></div>Spotify</div>`;
   $("#dock").innerHTML = app("phone", "", "tel") + app("messages", "", "sms") + app("kakao", "", "kakao") + app("safari", "", "safari");
@@ -515,20 +515,22 @@ const KC = [
   { n: "엄마", m: [["them", "선우야 밥은 먹었니?", "오후 6:12"], ["me", "응, 먹었어요", "오후 6:14"], ["them", "주말에 집 올 거지?", "오후 6:15"], ["me", "가려고요. 시간 되면 갈게요", "오후 6:20"]] },
   { n: "아빠", m: [["them", "학교는 잘 다니고 있니", "오전 9:02"], ["me", "네, 괜찮아요", "오전 9:10"], ["them", "용돈 보냈다. 아껴 써라", "오전 9:11"], ["me", "감사합니다!", "오전 9:12"]] },
   { n: "누나", m: [["them", "야 너 이번 주말에 뭐 해?", "오후 3:40"], ["me", "아직 계획 없는데 왜?", "오후 3:41"], ["them", "엄마가 같이 장 보러 가자셔", "오후 3:42"], ["me", "오케이 가자", "오후 3:45"]] },
-  { n: "우리 가족", g: 1, c: 4, m: [["them", "오늘 저녁은 다 같이 먹자", "오후 4:10", "엄마"], ["them", "나 7시쯤 도착", "오후 4:12", "아빠"], ["them", "난 좀 늦을 듯", "오후 4:15", "누나"], ["me", "저는 6시 반까지 갈게요", "오후 4:20"]] },
+  { n: "우리 가족", g: 1, c: 4, lock: 1, m: [["them", "오늘 저녁은 다 같이 먹자", "오후 4:10", "엄마"], ["them", "나 7시쯤 도착", "오후 4:12", "아빠"], ["them", "난 좀 늦을 듯", "오후 4:15", "누나"], ["me", "저는 6시 반까지 갈게요", "오후 4:20"]] },
   { n: "정원이", m: [["them", "형 내일 시간 돼요?", "오후 11:02"], ["me", "응 왜?", "오후 11:05"], ["them", "아니에요, 그냥 물어봤어요", "오후 11:06"]] },
   { n: "박종성", m: [["them", "야 합평 자료 올렸냐", "오후 8:30"], ["me", "방금 올렸어", "오후 8:33"], ["them", "ㅇㅋ 고마워", "오후 8:34"]] },
-  { n: "문창과 26학번", g: 1, c: 38, m: [["them", "공지) 수요일 합평 7시로 변경됩니다", "오후 5:01", "26 과대"], ["them", "작품 파일은 전날까지 올려주세요", "오후 5:02", "26 과대"], ["them", "넵 확인했습니다!", "오후 5:10", "이하윤"], ["me", "확인했습니다", "오후 5:12"]] }
+  { n: "문창과 XX학번", g: 1, c: 38, lock: 1, m: [["them", "공지) 수요일 합평 7시로 변경됩니다", "오후 5:01", "26 과대"], ["them", "작품 파일은 전날까지 올려주세요", "오후 5:02", "26 과대"], ["them", "넵 확인했습니다!", "오후 5:10", "이하윤"], ["me", "확인했습니다", "오후 5:12"]] }
 ];
 const K = $("#kakao");
 const ktab = on => `<div class="ktab"><button data-ktab="f"${on === "f" ? ' class="on"' : ""}><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button><button data-ktab="c"${on === "c" ? ' class="on"' : ""}><svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2.5 6.6 2.5 11c0 2.5 1.3 4.7 3.4 6.2L5 21l4.3-2.3c.9.2 1.7.3 2.7.3 5.5 0 9.5-3.6 9.5-8S17.5 3 12 3z"/></svg></button><button><svg viewBox="0 0 24 24"><path d="M5 9h15M4 15h15M10 3L8 21M16 3l-2 18"/></svg></button><button><svg viewBox="0 0 24 24"><path d="M6 7h12l1 14H5z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg></button><button><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></button></div>`;
-const FR = [["엄마", "오늘도 화이팅"], ["아빠", ""], ["누나", "퇴근!!"], ["정원이", ""], ["박종성", "과제 중"], ["26 과대", "공지 확인 필수"]];
+const FR = [["엄마", "오늘도 화이팅"], ["아빠", ""], ["누나", ""], ["정원이", ""], ["박종성", ""], ["26 과대", ""],
+  /* 아래 친구들은 목록에만 보이고 채팅/전화는 막혀 있어요 (3번째 값 1 = 채팅 막힘) */
+  ["강도윤", "", 1], ["권나연", "", 1], ["김민준", "", 1], ["문서아", "", 1], ["박지호", "", 1], ["서하준", "", 1], ["송예린", "", 1], ["안재원", "", 1], ["오세훈", "", 1], ["윤채원", "", 1], ["이서연", "", 1], ["임수아", "", 1], ["정하늘", "", 1], ["최유진", "", 1], ["한소율", "", 1]];
 function showList() {
   K.innerHTML = `<div class="kl-h">채팅</div><div class="scr" style="padding-bottom:100px">${KC.map((c, i) => { if (!c.m.length) return ""; const l = c.m[c.m.length - 1]; return `<div class="kr2" data-kc="${i}"><div class="av">${c.g ? GAV : AVS}</div><div class="kb2"><b>${c.n}${c.g ? ` <small>${c.c}</small>` : ""}</b><p>${esc(l[1] || (l[4] ? (l[5] === "rec" ? "통화 기록" : "사진") : ""))}</p></div><span class="kt">${l[2]}</span></div>`; }).join("")}</div>${ktab("c")}`;
 }
 function showFriends() {
   K.innerHTML = `<div class="fh"><b>친구</b><span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
-  <div class="scr" style="padding-bottom:100px"><div class="kr2 me0"><div class="av">${AVS}</div><div class="kb2"><b style="font-size:20px">김선우</b><p>오늘도 한 줄</p></div></div><div class="fl">친구 ${FR.length}</div>${FR.map((f, i) => `<div class="kr2" data-fr="${i}"><div class="av">${AVS}</div><div class="kb2"><b>${f[0]}</b><p>${f[1]}</p></div><em class="ch">›</em></div>`).join("")}</div>${ktab("f")}`;
+  <div class="scr" style="padding-bottom:100px"><div class="kr2 me0"><div class="av">${AVS}</div><div class="kb2"><b style="font-size:20px">김선우</b></div></div><div class="fl">친구 ${FR.length}</div>${FR.map((f, i) => `<div class="kr2" data-fr="${i}"><div class="av">${AVS}</div><div class="kb2"><b>${f[0]}</b>${f[1] ? `<p>${f[1]}</p>` : ""}</div><em class="ch">›</em></div>`).join("")}</div>${ktab("f")}`;
 }
 const kmsg = (m, c) => {
   if (m[0] === "sys") return `<div class="ksys">${esc(m[1])}<small>${m[2]}</small></div>`;
@@ -538,7 +540,7 @@ const kmsg = (m, c) => {
 };
 let kidx = 0, kadd = null;
 function openChat(i) {
-  const c = KC[i]; kidx = i;
+  const c = KC[i]; if (c.lock || c.noChat) return; kidx = i;
   const mi = (d, t, k) => `<div class="kmi" data-km="${k}"><i>${ic(d, 22)}</i>${t}</div>`;
   K.innerHTML = `<div class="hd"><button class="back" data-kback="1">${CH}</button><b>${c.n}${c.g ? ` <small style="font-weight:400;color:#556">${c.c}</small>` : ""}</b><span class="khd-i">${ic('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', 22)}${ic('<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>', 22)}</span></div><div class="msgs"><div class="day">${new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })}</div>${c.m.map(m => kmsg(m, c)).join("")}</div>
   <div class="kmenu" id="kmenu">${mi('<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>', "사진", "photo")}${mi('<path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.6 3.6a1 1 0 0 1-.25 1z"/>', "보이스톡 기록", "voice")}${mi('<rect x="2" y="6" width="14" height="12" rx="2"/><path d="M22 8l-6 4 6 4z"/>', "페이스톡 기록", "face")}${mi('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', "날짜로 이동", "")}</div>
@@ -640,7 +642,10 @@ function openRoom(id) {
 renderSetlog();
 
 /* ===== 전화 ===== */
-const CONTACTS = [["엄마", "010-8888-1111", 1], ["아빠", "010-8888-2222", 1], ["누나", "010-8888-3333", 0], ["정원이", "010-8888-4444", 1], ["박종성", "010-8888-5555", 0], ["26 과대", "010-8888-6666", 0]];
+const CONTACTS = [["엄마", "010-8888-1111", 1], ["아빠", "010-8888-2222", 1], ["누나", "010-8888-3333", 0], ["정원이", "010-8888-4444", 1], ["박종성", "010-8888-5555", 0], ["26 과대", "010-8888-6666", 0],
+  ["강도윤", "010-1111-0000", 0], ["권나연", "010-2222-0000", 0], ["김민준", "010-3333-0000", 0], ["문서아", "010-4444-0000", 0], ["박지호", "010-5555-0000", 0], ["서하준", "010-6666-0000", 0], ["송예린", "010-7777-0000", 0], ["안재원", "010-8888-0000", 0], ["오세훈", "010-9999-0000", 0], ["윤채원", "010-1111-9999", 0], ["이서연", "010-2222-9999", 0], ["임수아", "010-3333-9999", 0], ["정하늘", "010-4444-9999", 0], ["최유진", "010-5555-9999", 0], ["한소율", "010-6666-9999", 0]];
+/* 전화를 걸 수 없는 연락처 (26 과대 + 새로 만든 친구들) */
+const NOCALL = ["26 과대", "강도윤", "권나연", "김민준", "문서아", "박지호", "서하준", "송예린", "안재원", "오세훈", "윤채원", "이서연", "임수아", "정하늘", "최유진", "한소율"];
 const RECENT = [["정원이", "휴대전화", "오전 1:52", 0], ["엄마", "휴대전화", "어제", 1], ["누나", "휴대전화", "어제", 0], ["박종성", "휴대전화", "수요일", 0], ["26 과대", "휴대전화", "10/17", 1], ["아빠", "휴대전화", "10/12", 0]];
 const CALLS = { "정원이": ["…여보세요?", "형이에요?"] };
 const row = (n, sub, r, red) => `<div class="lr" data-call="${n}"><div><b class="${red ? "red" : ""}">${n}</b><small>${sub}</small></div><div class="r">${r}</div></div>`;
@@ -675,6 +680,7 @@ document.addEventListener("click", e => {
 });
 let kctx = null, csec = 0, cconn = false;
 function startCall(n, ctx) {
+  if (NOCALL.includes(n)) return;
   ct.forEach(t => { clearTimeout(t); clearInterval(t); }); ct = []; callName = n; kd = ""; kctx = ctx || null; csec = 0; cconn = false;
   const known = CONTACTS.some(c => c[0] === n);
   $("#cn").textContent = n; $("#csub").textContent = kctx ? kctx.kind : known ? "휴대전화" : "대한민국"; $("#cs").textContent = "연결 중..."; $("#ccap").innerHTML = ""; showKp(false); go("call2");
@@ -922,7 +928,7 @@ document.addEventListener("click", e => {
 /* ===== 카톡 탭 · + 메뉴 · 사진 선택 · 메시지 ===== */
 document.addEventListener("click", e => {
   const kt = e.target.closest("[data-ktab]"); if (kt) { if (kt.dataset.ktab === "f") showFriends(); else showList(); }
-  const fr = e.target.closest("[data-fr]"); if (fr) { const n = FR[+fr.dataset.fr][0]; let i = KC.findIndex(c => c.n === n); if (i < 0) { KC.push({ n, m: [] }); i = KC.length - 1; } openChat(i); }
+  const fr = e.target.closest("[data-fr]"); if (fr && FR[+fr.dataset.fr][2]) return; if (fr) { const n = FR[+fr.dataset.fr][0]; let i = KC.findIndex(c => c.n === n); if (i < 0) { KC.push({ n, m: [] }); i = KC.length - 1; } openChat(i); }
   const mn = $("#kmenu");
   if (e.target.closest("#kplus")) { mn.classList.toggle("on"); return; }
   const km = e.target.closest("[data-km]");

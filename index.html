@@ -431,7 +431,7 @@ let cur = "lock", waits = [], bt, badges = { kakao: 0, insta: 0 };
 function go(id) {
   camHook(id);
   document.querySelectorAll(".view").forEach(v => v.classList.toggle("on", v.id === id));
-  screen.dataset.t = themes[id]; cur = id; try { igMedia(); } catch (e) {}
+  screen.dataset.t = themes[id]; try { if (id === "insta" && cur !== "insta") ig.mute = true; } catch (e) {} cur = id; try { igMedia(); } catch (e) {}
   if (id === "kakao") badges.kakao = 0;
   if (id === "dm" || id === "insta") badges.insta = 0;
   renderHome();
@@ -1077,7 +1077,7 @@ const IGA = {
   ] }] },
   "yansu.xn": { name: "", bio: "@yan.jwn ♡ @suxnoo", posts: 7, fol: 224, fing: 2, follows: ["suxnoo", "yan.jwn"], dms: [{ u: "yan.jwn", m: [["them", "확인했어요"]], un: 0 }] }
 };
-const ig = { acc: "suxnoo", tab: "home", th: null, ov: null, pu: null, fl: false, fls: null, mute: false, q: "", liked: {}, po: null, notifs: { "suxnoo": [], "yansu.xn": [] }, su: null, si: 0 };
+const ig = { acc: "suxnoo", tab: "home", th: null, ov: null, pu: null, fl: false, fls: null, mute: true, q: "", liked: {}, po: null, notifs: { "suxnoo": [], "yansu.xn": [] }, su: null, si: 0 };
 const IGI = {
   heart: ic('<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>', 26),
   cmt: ic('<path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.5A8.4 8.4 0 1 1 21 11.5z"/>', 26),

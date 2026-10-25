@@ -198,6 +198,8 @@ img.art{object-fit:cover}
 .sbhint{position:absolute;left:0;right:0;bottom:150px;text-align:center;font-size:12px;color:#fff;text-shadow:0 1px 4px #0007;pointer-events:none}
 .vd .mh{font-size:13px;gap:6px}.vd.rv .vt b,.vt b{font-size:20px}.vt span{font-size:12px;margin-top:5px}.ra{gap:10px}.ra svg{width:16px;height:16px}
 .rpb{gap:6px}.rpb span{font-size:12px;padding:6px 11px;border-radius:16px}.dts i{width:4px;height:4px}.dts{gap:3px}
+button.dts{background:none;padding:10px;right:2px;bottom:2px;cursor:pointer;align-items:center}
+.dsh{position:absolute;inset:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:flex-end;padding:0 12px 34px;box-sizing:border-box}.dsh>div{width:100%;display:flex;flex-direction:column;gap:8px}.dsh button{width:100%;height:52px;border-radius:16px;background:#fff;font-size:16px;font-weight:600;color:#111}.dsh button.rm{color:#ff3b30}.dsh p{margin:0;background:#fff;border-radius:16px;padding:14px;text-align:center;font-size:13px;color:#777}
 .sbs.rec{border-color:#ff3b30}.sbs.rec svg{opacity:.4}
 @keyframes vg{0%,100%{background-position:0 0}50%{background-position:100% 100%}}@media (prefers-reduced-motion:reduce){.vd{animation:none}}
 .vd .mh{color:#fff;position:absolute;left:10px;top:8px;z-index:1;text-shadow:0 1px 3px #0006}.vt{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center}.vt b{display:block;font:900 26px/1 Impact,"Arial Black",sans-serif}.vt span{font-size:14px;margin-top:6px;display:block}
@@ -744,7 +746,7 @@ function drawRoom(showDate) {
     const g = GR[(i + ri + rd) % 6];
     if (cr === "love" && x[0] === "김선우") {
       const my = MYLOG[h], sv = !curSlot && (SW_LOGS[rd] || {})[h], hd = `<div class="mh">${ava(x[0], x[1] || "#ee77f0", 18)}${x[0]}</div>`, dots = '<div class="dts"><i></i><i></i><i></i></div>';
-      if (my) return `<div class="vd rv">${my.type === "img" ? `<img class="mi" src="${my.url}" alt="">` : `<video src="${my.url}" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>`}${hd}<div class="vt"><b>${h}</b></div>${rpl("sw")}${dots}</div>`.replace(/<(img|video) /, my.mirror ? '<$1 style="transform:scaleX(-1)" ' : "<$1 ");
+      if (my) { const dd = curSlot ? '<button class="dts del" data-mydel="1" aria-label="삭제"><i></i><i></i><i></i></button>' : dots; return `<div class="vd rv">${my.type === "img" ? `<img class="mi" src="${my.url}" alt="">` : `<video src="${my.url}" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>`}${hd}<div class="vt"><b>${h}</b></div>${rpl("sw")}${dd}</div>`.replace(/<(img|video) /, my.mirror ? '<$1 style="transform:scaleX(-1)" ' : "<$1 "); }
       if (sv) return `<div class="vd rv"><video src="${SWV(sv[0])}" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>${hd}<div class="vt"><b>${h}</b><span>${esc(sv[1])}</span></div>${rpl("sw")}${dots}</div>`;
     }
     if (sl.v && x[0] === "양정원") return `<div class="vd rv"><video src="${SLV(sl.v)}" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture></video><div class="mh">${ava(x[0], x[1] || "#ee77f0", 18)}${x[0]}</div><div class="vt"><b>${h}</b><span>${sl.cap}</span></div>${rpl("jw")}<div class="ra"><button>${rp2}</button><button data-heart="1">${hrt}</button></div></div>`;
@@ -890,6 +892,12 @@ $("#settings").innerHTML = `<div class="scr"><h1 class="ttl" style="padding-top:
 
 /* ===== 공통 클릭 ===== */
 document.addEventListener("click", e => {
+  if (e.target.closest("[data-mydel]") && cur === "sroom") {
+    const sh = document.createElement("div"); sh.className = "dsh";
+    sh.innerHTML = '<div><p>이 셋로그를 삭제할까요?</p><button class="rm" data-ok="1">삭제</button><button data-ok="0">취소</button></div>';
+    sh.onclick = ev => { const b = ev.target.closest("button"); if (!b && ev.target !== sh) return; if (b && b.dataset.ok === "1") { const k = nowHH(), m = MYLOG[k]; if (m && m.url.startsWith("blob:")) URL.revokeObjectURL(m.url); delete MYLOG[k]; ROOMS.forEach(r => r.m[0][1] = 0); renderSetlog(); drawRoom(); } sh.remove(); };
+    $("#sroom").appendChild(sh); return;
+  }
   const rc = e.target.closest("[data-room]"); if (rc && rc.dataset.room === "love") openRoom(rc.dataset.room);
   if (e.target.closest(".shoot") || e.target.closest("[data-cam]")) { sbFrom = cur; go("sbcam"); }
   if (e.target.closest('[data-go="camera"]') && cur !== "camera") camBack = null;

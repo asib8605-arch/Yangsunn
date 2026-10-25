@@ -1392,6 +1392,13 @@ function stoNext() { const items = stoOf(ig.su); if (ig.si < items.length - 1) i
 function stoPrev() { if (ig.si > 0) ig.si--; else { const f = stoList(), k = f.indexOf(ig.su); if (k > 0) { ig.su = f[k - 1]; ig.si = stoOf(ig.su).length - 1; } } stoDraw(); }
 /* 알림: IG.like("누가", "스토리"), IG.dm("누가", "내용") 으로 언제든 띄울 수 있어요 */
 function igBadge() { if (cur !== "insta") { badges.insta++; if (cur === "home") renderHome(); } }
+/* suxnoo가 yan.jwn 팔로우를 취소하면 잠시 뒤 yan.jwn이 DM을 보내요 (다시 팔로우하면 취소) */
+let unfT = null;
+function igUnf(acct, u, re) {
+  if (acct !== "suxnoo" || u !== "yan.jwn") return;
+  clearTimeout(unfT); unfT = null;
+  if (!re) unfT = setTimeout(() => { unfT = null; if (!IGA.suxnoo.follows.includes("yan.jwn")) IG.dm("yan.jwn", "왜 팔로우 취소해요?", "suxnoo"); }, 2500);
+}
 window.IG = {
   like(who, what, acct) {
     acct = acct || ig.acc; what = what || "게시물"; (ig.notifs[acct] = ig.notifs[acct] || []).unshift({ who, text: `회원님의 ${what}${/게시물$/.test(what) ? "을" : "를"} 좋아합니다.`, t: "방금" }); igBadge();
@@ -1452,12 +1459,12 @@ $("#insta").addEventListener("click", e => {
   }
   if ((t = g("[data-igrf]"))) {
     const u = t.dataset.igrf, A2 = IGA[ig.acc], k = A2.follows.indexOf(u);
-    if (k >= 0) { A2.follows.splice(k, 1); A2.fing--; } else { A2.follows.push(u); A2.fing++; }
+    if (k >= 0) { A2.follows.splice(k, 1); A2.fing--; igUnf(ig.acc, u); } else { A2.follows.push(u); A2.fing++; igUnf(ig.acc, u, true); }
     const on = k < 0;
     document.querySelectorAll(`[data-igrf="${u}"]`).forEach(b => { b.classList.toggle("on", on); b.textContent = on ? "팔로잉" : "팔로우"; });
     return;
   }
-  if ((t = g("[data-igft]"))) { const u = t.dataset.igft, A2 = IGA[ig.acc], k = A2.follows.indexOf(u); if (k >= 0) { A2.follows.splice(k, 1); A2.fing--; } else { A2.follows.push(u); A2.fing++; } igRender(); return; }
+  if ((t = g("[data-igft]"))) { const u = t.dataset.igft, A2 = IGA[ig.acc], k = A2.follows.indexOf(u); if (k >= 0) { A2.follows.splice(k, 1); A2.fing--; igUnf(ig.acc, u); } else { A2.follows.push(u); A2.fing++; igUnf(ig.acc, u, true); } igRender(); return; }
   if (g("[data-igfl]")) { ig.fl = true; ig.fls = [...IGA[ig.acc].follows]; igRender(); return; }
   if ((t = g("[data-igu]"))) { const u = t.dataset.igu; ig.th = null; ig.ov = null; ig.po = null; if (u === ig.acc) { ig.tab = "profile"; ig.pu = null; ig.fl = false; } else ig.pu = u; igRender(); return; }
   if ((t = g("[data-igdmu]"))) { const u = t.dataset.igdmu, A2 = IGA[ig.acc]; let i = A2.dms.findIndex(x => x.u === u); if (i < 0) { A2.dms.unshift({ u, m: [], un: 0 }); i = 0; } ig.pu = null; ig.po = null; ig.fl = false; ig.tab = "dm"; ig.th = i; igRender(); return; }

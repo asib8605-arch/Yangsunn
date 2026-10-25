@@ -1279,8 +1279,8 @@ function stoPrev() { if (ig.si > 0) ig.si--; else { const f = stoList(), k = f.i
 function igBadge() { if (cur !== "insta") { badges.insta++; if (cur === "home") renderHome(); } }
 window.IG = {
   like(who, what, acct) {
-    acct = acct || ig.acc; what = what || "게시물"; (ig.notifs[acct] = ig.notifs[acct] || []).unshift({ who, text: `회원님의 ${what}을(를) 좋아합니다.`, t: "방금" }); igBadge();
-    banner("📷", "ig", "Instagram", `${who}님이 회원님의 ${what}을(를) 좋아합니다.`, () => { go("insta"); ig.acc = acct; ig.th = null; ig.ov = "act"; igRender(); });
+    acct = acct || ig.acc; what = what || "게시물"; (ig.notifs[acct] = ig.notifs[acct] || []).unshift({ who, text: `회원님의 ${what}${/게시물$/.test(what) ? "을" : "를"} 좋아합니다.`, t: "방금" }); igBadge();
+    banner("📷", "ig", "Instagram", `${who}님이 회원님의 ${what}${/게시물$/.test(what) ? "을" : "를"} 좋아합니다.`, () => { go("insta"); ig.acc = acct; ig.th = null; ig.ov = "act"; igRender(); });
   },
   dm(who, text, acct) {
     acct = acct || ig.acc; const A = IGA[acct]; let d = A.dms.find(x => x.u === who); if (!d) { d = { u: who, m: [], un: 0 }; A.dms.unshift(d); }
@@ -1292,8 +1292,17 @@ window.IG = {
 
 /* 좋아요 상태 반영 + 더블탭 하트 */
 let igLK = null, igLT = 0, igTapT = null;
+function igLikeNotify(k) {
+  let owner, what;
+  if (k.startsWith("po:")) { owner = k.split(":")[1]; what = "게시물"; }
+  else if (k.startsWith("s:")) { owner = k.split(":")[1]; what = "스토리"; }
+  else { const r = IGR.find(x => x.id === k); if (!r) return; owner = r.u; what = "릴스"; }
+  if (owner === ig.acc || !IGA[owner]) return;
+  ig.likeSent = ig.likeSent || {}; if (ig.likeSent[ig.acc + k]) return; ig.likeSent[ig.acc + k] = 1;
+  const who = ig.acc; setTimeout(() => IG.like(who, what, owner), 1200);
+}
 function igLike(k, on) {
-  const was = !!ig.liked[k]; ig.liked[k] = on;
+  const was = !!ig.liked[k]; ig.liked[k] = on; if (on && !was) igLikeNotify(k);
   document.querySelectorAll(`[data-igl="${k}"]`).forEach(b => b.classList.toggle("on", on));
   document.querySelectorAll(`[data-igc="${k}"]`).forEach(c => {
     if (c.dataset.n) c.textContent = igFmt(+c.dataset.n + (on ? 1 : 0));

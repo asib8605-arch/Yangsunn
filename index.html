@@ -753,11 +753,11 @@ function drawRoom(showDate) {
     }
     if (sl.v && x[0] === "양정원") return `<div class="vd rv"><video src="${SLV(sl.v)}" autoplay loop muted playsinline webkit-playsinline preload="auto" disablepictureinpicture></video><div class="mh">${ava(x[0], x[1] || "#ee77f0", 18)}${x[0]}</div><div class="vt"><b>${h}</b><span>${sl.cap}</span></div>${rpl("jw")}<div class="ra"><button>${rp2}</button><button data-heart="1">${hrt}</button></div></div>`;
     if (cr === "love" && !curSlot) return `<div class="mc"><div class="mh">${ava(x[0], "#ee77f0", 20)}${x[0]}</div><div class="tm2">${h}</div></div>`;
-    if (curSlot) return `<div class="mc"><div class="mh">${ava(x[0], x[1] || "#ee77f0", 20)}${x[0]}</div><div class="tm2">${h}</div>${x[1] ? `<div class="bgs" style="left:${L[i % 10]}%">${sm(x[1], two ? 92 : 60)}</div>` : i === 0 ? `<button class="shoot">눌러서 촬영</button>` : `<div class="bgs" style="left:${L[i % 10]}%">${sm("#dedede", two ? 92 : 60)}</div>`}</div>`;
+    if (curSlot) return `<div class="mc"><div class="mh">${ava(x[0], x[1] || "#ee77f0", 20)}${x[0]}</div><div class="tm2">${h}</div>${x[1] ? `<div class="bgs" style="left:${L[i % 10]}%">${sm(x[1], two ? 92 : 60)}</div>` : x[0] === "김선우" ? `<button class="shoot">눌러서 촬영</button>` : `<div class="bgs" style="left:${L[i % 10]}%">${sm("#dedede", two ? 92 : 60)}</div>`}</div>`;
     if ((i * 7 + ri * 3 + rd * 2) % 5 < 3) return `<div class="vd" style="background-image:linear-gradient(135deg,${g[0]},${g[1]})"><div class="mh">${ava(x[0], "#ee77f0", 18)}${x[0]}</div><div class="vt"><b>${h}</b><span>${CAP[(i * 3 + ri + rd) % CAP.length]}</span></div><div class="ra"><button>${rp2}</button><button data-heart="1">${hrt}</button></div></div>`;
     return `<div class="mc"><div class="mh">${ava(x[0], "#ee77f0", 20)}${x[0]}</div><div class="tm2">${h}</div></div>`;
   };
-  $("#rbody").innerHTML = `<div class="pd">${logs.map((_, j) => `<i${j === ri ? ' class="on"' : ""}></i>`).join("")}</div><div class="pgx ${two ? "two" : "ten"}">${r.m.map(card).join("")}</div>`;
+  $("#rbody").innerHTML = `<div class="pd">${logs.map((_, j) => `<i${j === ri ? ' class="on"' : ""}></i>`).join("")}</div><div class="pgx ${two ? "two" : "ten"}">${(cr === "love" ? [...r.m].reverse() : r.m).map(card).join("")}</div>`;
   if (showDate) { const dp = $("#dpill"); dp.textContent = dayLabel(rd); dp.classList.add("on"); clearTimeout(dpT); dpT = setTimeout(() => dp.classList.remove("on"), 1200); }
 }
 function openRoom(id) {

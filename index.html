@@ -464,12 +464,12 @@ function app(id, label, go, pos) { return `<button class="app" style="${pos || "
 function renderHome() {
   $("#hg").innerHTML =
     `<div class="wg" style="grid-column:1/3;grid-row:1/3" data-go="photos"><div class="card pw"><img src="${IMG.photo}" alt=""></div>사진</div>`
-    + app("notes", "메모", "notes", "grid-column:3;grid-row:1") + app("photos", "사진", "photos", "grid-column:4;grid-row:1")
+    + app("notes", "메모", "", "grid-column:3;grid-row:1") + app("photos", "사진", "photos", "grid-column:4;grid-row:1")
     + app("camera", "카메라", "camera", "grid-column:3;grid-row:2") + app("settings", "설정", "settings", "grid-column:4;grid-row:2")
     + app("insta", "Instagram", "insta", "grid-column:1;grid-row:3") + app("x", "X", "", "grid-column:2;grid-row:3")
     + app("setlog", "셋로그", "setlog", "grid-column:1;grid-row:4") + app("baemin", "배달의민족", "baemin", "grid-column:2;grid-row:4")
     + `<div class="wg" style="grid-column:3/5;grid-row:3/5"><div class="card sp"><img class="art" src="${IMG.cover}" alt=""><img class="slogo" src="${IMG.spotify}" alt=""><div class="tt"><b>No Make Up</b><span>Zion.T</span></div><i class="play">${playing ? "❚❚" : "▶"}</i></div>Spotify</div>`;
-  $("#dock").innerHTML = app("phone", "", "tel") + app("messages", "", "sms") + app("kakao", "", "kakao") + app("safari", "", "safari");
+  $("#dock").innerHTML = app("phone", "", "tel") + app("messages", "", "sms") + app("kakao", "", "kakao") + app("safari", "", "");
 }
 renderHome();
 
@@ -841,7 +841,7 @@ $("#settings").innerHTML = `<div class="scr"><h1 class="ttl" style="padding-top:
 
 /* ===== 공통 클릭 ===== */
 document.addEventListener("click", e => {
-  const rc = e.target.closest("[data-room]"); if (rc) openRoom(rc.dataset.room);
+  const rc = e.target.closest("[data-room]"); if (rc && rc.dataset.room === "love") openRoom(rc.dataset.room);
   if (e.target.closest(".shoot") || e.target.closest("[data-cam]")) { sbFrom = cur; go("sbcam"); }
   if (e.target.closest('[data-go="camera"]') && cur !== "camera") camBack = null;
   const kc = e.target.closest("[data-kc]"); if (kc) openChat(+kc.dataset.kc);

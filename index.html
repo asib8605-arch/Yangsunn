@@ -784,8 +784,15 @@ const CONTACTS = [["엄마", "010-8888-1111", 1], ["아빠", "010-8888-2222", 1]
 const NOCALL = ["26 과대", "강도윤", "권나연", "김민준", "문서아", "박지호", "서하준", "송예린", "안재원", "오세훈", "윤채원", "이서연", "임수아", "정하늘", "최유진", "한소율"];
 const RECENT = [["정원이", "휴대전화", "오전 1:52", 0], ["엄마", "휴대전화", "어제", 1], ["누나", "휴대전화", "어제", 0], ["박종성", "휴대전화", "수요일", 0], ["26 과대", "휴대전화", "10/17", 1], ["아빠", "휴대전화", "10/12", 0]];
 const CALLS = { "정원이": ["…여보세요?", "형이에요?"] };
+/* 정원이 전화 시나리오 (전화 앱에서 걸 때만, 걸 때마다 랜덤). [대사, 이 줄 앞에서 추가로 기다릴 초] */
+const JW_CALLS = [
+  [["여보세요?", 0], ["저 지금 집 가고 있어요", 0], ["왜요?", 0], ["ㅋㅋㅋ 보고싶다고요?", 0], ["그럼 페이스톡 할래요? 저도 형 얼굴 보고 싶은데.", 1]],
+  [["여보세요", 0], ["왜 아까 전화 안 받았어요", 0], ["아이스크림 뭐 사가냐고 물어보려 했는데", 0], ["알아요 그래서 민트초코 샀어요", 2], ["곧 도착이요", 0]],
+  [["…여보세요", 0], ["자고 있었어요… 왜요?", 2], ["응", 0], ["알겠어요 금방 나갈게여…", 0]]
+];
+let jwLast = -1;
 const row = (n, sub, r, red) => `<div class="lr" data-call="${n}"><div><b class="${red ? "red" : ""}">${n}</b><small>${sub}</small></div><div class="r">${r}</div></div>`;
-$("#t-recent").innerHTML = `<h1 class="ttl">통화</h1>${RECENT.map(r => row(r[0], r[1], r[2] + ` <span style="color:#3a82f6">ⓘ</span>`, r[3])).join("")}`;
+const renderRecent = () => { $("#t-recent").innerHTML = `<h1 class="ttl">통화</h1>${RECENT.map(r => row(r[0], r[1], r[2] + ` <span style="color:#3a82f6">ⓘ</span>`, r[3])).join("")}`; }; renderRecent();
 $("#t-contacts").innerHTML = `<h1 class="ttl">연락처</h1><div class="grph">즐겨찾기</div>${CONTACTS.filter(c => c[2]).map(c => row(c[0], c[1], "")).join("")}<div class="grph">연락처</div>${CONTACTS.map(c => row(c[0], c[1], "")).join("")}`;
 const KL = [["1", ""], ["2", "ABC"], ["3", "DEF"], ["4", "GHI"], ["5", "JKL"], ["6", "MNO"], ["7", "PQRS"], ["8", "TUV"], ["9", "WXYZ"], ["*", ""], ["0", "+"], ["#", ""]];
 $("#kp").innerHTML = KL.map(k => `<button data-k="${k[0]}">${k[0]}<small>${k[1]}</small></button>`).join("");
@@ -821,11 +828,21 @@ function startCall(n, ctx) {
   const known = CONTACTS.some(c => c[0] === n);
   $("#cn").textContent = n; $("#csub").textContent = kctx ? kctx.kind : known ? "휴대전화" : "대한민국"; $("#cs").textContent = "연결 중..."; $("#ccap").innerHTML = ""; showKp(false); go("call2");
   const L = CALLS[n] || ["(신호음이 계속 울린다…)", "전화를 받지 않습니다."], T = (f, ms) => ct.push(setTimeout(f, ms));
+  /* 전화 앱에서 정원이에게 걸 때만(카톡 등 다른 경로 제외) 시나리오 중 하나를 랜덤으로 재생 */
+  let sc = null;
+  if (n === "정원이" && !ctx) { let k; do { k = Math.floor(Math.random() * JW_CALLS.length); } while (JW_CALLS.length > 1 && k === jwLast); jwLast = k; sc = JW_CALLS[k]; }
   T(() => {
     cconn = true; $("#cs").textContent = "00:00";
     ct.push(setInterval(() => { csec++; $("#cs").textContent = "0" + Math.floor(csec / 60) + ":" + String(csec % 60).padStart(2, "0"); }, 1000));
-    L.forEach((l, i) => T(() => { const p = document.createElement("p"); p.textContent = l; $("#ccap").appendChild(p); }, 500 + i * 2600));
-    T(endCall2, 500 + L.length * 2600 + 1800);
+    const say = l => { const p = document.createElement("p"); p.textContent = l; $("#ccap").appendChild(p); };
+    if (sc) {
+      let t = 500;
+      sc.forEach((x, i) => { if (i) t += 1900 + x[1] * 1000; T(() => say(x[0]), t); });
+      T(endCall2, t + 2600);
+    } else {
+      L.forEach((l, i) => T(() => say(l), 500 + i * 2600));
+      T(endCall2, 500 + L.length * 2600 + 1800);
+    }
   }, 2200);
 }
 function endCall2() {
@@ -835,7 +852,14 @@ function endCall2() {
     const i = kctx.i, mm = String(Math.floor(csec / 60)).padStart(2, "0") + ":" + String(csec % 60).padStart(2, "0");
     kpushc(KC[i], ["sys", cconn ? `${kctx.kind} ${mm}` : `${kctx.kind} 취소됨`, nowT()]); kctx = null;
     setTimeout(() => { go("kakao"); openChat(i); }, 600);
-  } else setTimeout(() => go("tel"), 600);
+  } else {
+    /* 전화 앱 통화 기록: 연결 전에 끊으면 부재중, 통화했으면 통화 시간 표시 */
+    const mm = String(Math.floor(csec / 60)).padStart(2, "0") + ":" + String(csec % 60).padStart(2, "0"), sb = $("#csub").textContent || "휴대전화";
+    RECENT.unshift([callName, sb + (cconn ? " · 통화 시간 " + mm : " · 부재중"), nowT(), cconn ? 0 : 1]);
+    if (RECENT.length > 40) RECENT.length = 40;
+    renderRecent();
+    setTimeout(() => go("tel"), 600);
+  }
 }
 
 /* ===== 메시지 ===== */

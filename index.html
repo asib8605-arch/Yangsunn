@@ -617,7 +617,12 @@ const JW = { st: null }; /* 정원이 대화 상태: like1 / like2 / break */
 function kReply(name, v) {
   const n = kNorm(v);
   if (name === "박종성") {
-    if (/좋아해|사랑해/.test(n)) return kIn(name, ["뭔 소리야?", "너 이거 뭐 벌칙이냐?", "양정원한테 보낼 거 잘못 보낸 건가"]);
+    if (/좋아해|사랑해/.test(n)) {
+      const end = kIn(name, ["뭔 소리야?", "너 이거 뭐 벌칙이냐?", "양정원한테 보낼 거 잘못 보낸 건가"]), w = /사랑해/.test(n) ? "사랑한다고" : "좋아한다고";
+      /* 박종성 답장이 끝난 뒤 정원이에게서 카톡 알림 */
+      kIn("정원이", [`형 지금 누구한테 ${w} 말하는 거예요?`], 1100, end + 1500);
+      return end;
+    }
     if (/헤어졌/.test(n)) return kIn(name, ["친구 필요하냐?", "나와 술 먹게"]);
     if (/어디야/.test(n)) return kIn(name, ["왜?", "카페에서 과제 중"]);
     if (/엽떡/.test(n)) return kIn(name, ["ㅇㅇ 수업 끝나고 과방 감"]);

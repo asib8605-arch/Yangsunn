@@ -30,6 +30,7 @@ button{font:inherit;border:0;background:none;color:inherit;cursor:pointer;paddin
 .n b{display:block;font-size:15px}.n span{font-size:14px;opacity:.92}
 .n i,.ic{font-style:normal;display:grid;place-items:center;width:38px;height:38px;border-radius:10px;font-size:20px;flex:none}
 .hint{position:absolute;bottom:30px;left:0;right:0;font-size:14px;opacity:.8}
+.lkb{position:absolute;bottom:62px;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:rgba(48,54,100,.55);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.18);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;transition:background .15s,color .15s,transform .1s;cursor:pointer;padding:0}.lkb:active{transform:scale(.92)}.lkb.l{left:46px}.lkb.r{right:46px}.lkb.on{background:#fff;color:#2b3060}
 /* 홈 화면 */
 #home{background:linear-gradient(200deg,#2b3a67,#56445d 50%,#c9785f)}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 6px;padding:84px 18px;justify-items:center}
@@ -356,6 +357,8 @@ button.dts{background:none;padding:10px;right:2px;bottom:2px;cursor:pointer;alig
   <section class="view on" id="lock">
     <div class="d" id="date"></div><div class="t clk">9:41</div>
     <div id="notifs"></div>
+    <button class="lkb l" id="lkfl" aria-label="손전등"><svg width="22" height="26" viewBox="0 0 22 26" fill="currentColor"><path d="M5.5 1.5h11a1 1 0 0 1 1 1V7a2 2 0 0 1-.9 1.7L16 9.8V23a2.5 2.5 0 0 1-2.5 2.5h-5A2.5 2.5 0 0 1 6 23V9.8L5.4 8.7A2 2 0 0 1 4.5 7V2.5a1 1 0 0 1 1-1zm4.2 10.2a1.3 1.3 0 0 0-1.2 1.3v4.2a1.3 1.3 0 0 0 2.6 0V13a1.3 1.3 0 0 0-1.4-1.3z" fill-rule="evenodd"/></svg></button>
+    <button class="lkb r" id="lkcm" aria-label="카메라"><svg width="28" height="24" viewBox="0 0 28 24" fill="currentColor"><path d="M9.5 1.5h9l1.6 2.6H24A3.5 3.5 0 0 1 27.5 7.600v12A3.500 3.500 0 0 1 24 23H4A3.500 3.500 0 0 1 .5 19.600v-12A3.500 3.500 0 0 1 4 4.100h3.900zM14 8a5.500 5.500 0 1 0 0 11 5.500 5.500 0 0 0 0-11zm0 2.500a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM23 7.200a1.200 1.200 0 1 0 0 2.400 1.200 1.200 0 0 0 0-2.400z" fill-rule="evenodd"/></svg></button>
     <div class="hint">위로 쓸어올려 잠금 해제</div>
   </section>
 
@@ -491,6 +494,8 @@ function tick() {
 }
 tick(); setInterval(tick, 5000);
 
+/* 잠금 화면 손전등 버튼(켜짐/꺼짐 표시만) */
+$("#lkfl").onclick = e => e.currentTarget.classList.toggle("on");
 /* 잠금 화면 쓸어올리기 */
 const L = $("#lock"); let y0 = null, dy = 0, moved = false;
 L.style.touchAction = "none";

@@ -1397,17 +1397,18 @@ let unfT = null;
 function igUnf(acct, u, re) {
   if (acct !== "suxnoo" || u !== "yan.jwn") return;
   clearTimeout(unfT); unfT = null;
-  if (!re) unfT = setTimeout(() => { unfT = null; if (!IGA.suxnoo.follows.includes("yan.jwn")) IG.dm("yan.jwn", "왜 팔로우 취소해요?", "suxnoo"); }, 2500);
+  if (!re) unfT = setTimeout(() => { unfT = null; if (!IGA.suxnoo.follows.includes("yan.jwn")) IG.dm("yan.jwn", "왜 팔로우 취소해요?", "suxnoo", true); }, 2500);
 }
 window.IG = {
   like(who, what, acct) {
     acct = acct || ig.acc; what = what || "게시물"; (ig.notifs[acct] = ig.notifs[acct] || []).unshift({ who, text: `회원님의 ${what}${/게시물$/.test(what) ? "을" : "를"} 좋아합니다.`, t: "방금" }); igBadge();
     banner("📷", "ig", "Instagram", `${who}님이 회원님의 ${what}${/게시물$/.test(what) ? "을" : "를"} 좋아합니다.`, () => { go("insta"); ig.acc = acct; ig.th = null; ig.ov = "act"; igRender(); });
   },
-  dm(who, text, acct) {
+  dm(who, text, acct, stamp) {
     acct = acct || ig.acc; const A = IGA[acct]; let d = A.dms.find(x => x.u === who); if (!d) { d = { u: who, m: [], un: 0 }; A.dms.unshift(d); }
+    if (stamp) { const n = new Date(), h = n.getHours(); d.m.push(["sep", `${n.getMonth() + 1}월 ${n.getDate()}일 ${h < 12 ? "오전" : "오후"} ${h % 12 || 12}:${String(n.getMinutes()).padStart(2, "0")}`]); }
     d.m.push(["them", text]); const inThread = cur === "insta" && ig.acc === acct && ig.th !== null && A.dms[ig.th] === d;
-    if (!inThread) { d.un = 1; igBadge(); banner("📷", "ig", who, text, () => { go("insta"); ig.acc = acct; ig.tab = "dm"; ig.ov = null; ig.th = IGA[acct].dms.indexOf(d); igRender(); }); }
+    if (!inThread) { const k = A.dms.indexOf(d); if (k > 0) { A.dms.splice(k, 1); A.dms.unshift(d); } d.un = 1; igBadge(); banner("📷", "ig", who, text, () => { go("insta"); ig.acc = acct; ig.tab = "dm"; ig.ov = null; ig.th = IGA[acct].dms.indexOf(d); igRender(); }); }
     if (cur === "insta") igRender();
   }
 };

@@ -500,7 +500,11 @@ $("#lkfl").onclick = e => e.currentTarget.classList.toggle("on");
 const L = $("#lock"); let y0 = null, dy = 0, moved = false;
 L.style.touchAction = "none";
 L.addEventListener("pointerdown", e => { y0 = e.clientY; dy = 0; moved = false; });
-L.addEventListener("pointermove", e => {
+/* 맨 아래 홈 바(#homebar)에서 시작해 쓸어올려도 잠금 해제되게 */
+$("#homebar").style.touchAction = "none";
+$("#homebar").addEventListener("pointerdown", e => { if (cur === "lock") { y0 = e.clientY; dy = 0; moved = false; } });
+$("#homebar").addEventListener("click", e => { if (moved) { e.stopImmediatePropagation(); moved = false; } }, true);
+addEventListener("pointermove", e => {
   if (y0 === null) return;
   dy = Math.min(0, e.clientY - y0);
   if (dy < -8) { moved = true; L.style.transition = "none"; L.style.transform = `translateY(${dy}px)`; }
